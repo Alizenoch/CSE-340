@@ -29,13 +29,14 @@ app.use(express.static("public"))
 /* ***********************
  * Routes
  *************************/
-// Mount static routes at root
-app.use("/", staticRoutes)
 
 // Explicit homepage route
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" })
 })
+
+// Mount static routes at root
+app.use("/", staticRoutes)
 
 /* ***********************
  * Database Connection
