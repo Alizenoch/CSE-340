@@ -1,17 +1,22 @@
 const express = require("express")
 const router = express.Router()
 
-// Static Routes
-router.use(express.static("public"))
-router.use("/css", express.static(__dirname + "/../public/css"))
-router.use("/js", express.static(__dirname + "/../public/js"))
-router.use("/images", express.static(__dirname + "/../public/images"))
-
-// Homepage route
-router.get("/", (req, res) => {
-  res.render("index", { title: "Home" })
+/* ***********************
+ * Static Routes
+ *************************/
+// Example: About page
+router.get("/about", (req, res) => {
+  res.render("about", { title: "About" })
 })
 
+// Example: Contact page
+router.get("/contact", (req, res) => {
+  res.render("contact", { title: "Contact" })
+})
+
+/* ***********************
+ * Export Router
+ *************************/
 module.exports = router
 
 
