@@ -4,16 +4,15 @@ const router = express.Router()
 /* ***********************
  * Static Routes
  *************************/
+// (No homepage route here — handled in server.js)
 
-// Homepage route (optional here, but you can keep it if you prefer routes centralized)
-router.get("/", (req, res) => {
-  res.render("index", { title: "Home" })
-})
+// Example: you can add other routes later if needed
+// router.get("/about", (req, res) => {
+//   res.render("about", { title: "About" })
+// })
 
 /* ***********************
  * Export Router
  *************************/
 module.exports = router
-
-
 
