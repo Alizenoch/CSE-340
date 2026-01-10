@@ -11,7 +11,7 @@ const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const { Pool } = require("pg")   // PostgreSQL client
 const app = express()
-const static = require("./routes/static")
+const staticRoutes = require("./routes/static")
 
 /* ***********************
  * View Engine and Templates
@@ -23,7 +23,10 @@ app.set("layout", "./layouts/layout")
 /* ***********************
  * Routes
  *************************/
-app.use(static)
+// Mount static routes at root
+app.use("/", staticRoutes)
+
+// Explicit homepage route
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" })
 })
@@ -49,13 +52,12 @@ pool.query("SELECT NOW()", (err, res) => {
  * Local Server Information
  *************************/
 const port = process.env.PORT || 3000
-const host = process.env.HOST || "localhost"
 
 /* ***********************
  * Log statement to confirm server operation
  *************************/
 app.listen(port, () => {
-  console.log(`App listening on ${host}:${port}`)
+  console.log(`App listening on port ${port}`)
 })
 
 module.exports = { app, pool }
