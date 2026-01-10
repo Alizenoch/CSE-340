@@ -4,14 +4,10 @@ const router = express.Router()
 /* ***********************
  * Static Routes
  *************************/
-// Example: About page
-router.get("/about", (req, res) => {
-  res.render("about", { title: "About" })
-})
 
-// Example: Contact page
-router.get("/contact", (req, res) => {
-  res.render("contact", { title: "Contact" })
+// Homepage route (optional here, but you can keep it if you prefer routes centralized)
+router.get("/", (req, res) => {
+  res.render("index", { title: "Home" })
 })
 
 /* ***********************
