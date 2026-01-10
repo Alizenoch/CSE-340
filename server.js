@@ -21,6 +21,12 @@ app.use(expressLayouts)
 app.set("layout", "./layouts/layout")
 
 /* ***********************
+ * Middleware
+ *************************/
+// Serve static files from the "public" folder
+app.use(express.static("public"))
+
+/* ***********************
  * Routes
  *************************/
 // Mount static routes at root
