@@ -1,7 +1,7 @@
 /* ******************************************
  * This server.js file is the primary file of the 
- * application. It is used to control the project.
- *******************************************/
+ * application. It controls the project setup.
+ ******************************************/
 
 /* ***********************
  * Require Statements
@@ -29,7 +29,6 @@ app.use(express.static("public"))
 /* ***********************
  * Routes
  *************************/
-
 // Explicit homepage route
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" })
@@ -43,28 +42,29 @@ app.use("/", staticRoutes)
  *************************/
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  // Use SSL only in production (Render/Heroku)
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
 })
 
 // Test the connection on startup with a query
-pool.query("SELECT NOW()", (err, res) => {
+pool.query("SELECT NOW()", (err, result) => {
   if (err) {
-    console.error("❌ Database connection error:", err)
+    console.error("❌ Database connection error:", err.message)
   } else {
-    console.log("✅ Connected to PostgreSQL at:", res.rows[0].now)
+    console.log("✅ Connected to PostgreSQL at:", result.rows[0].now)
   }
 })
 
 /* ***********************
  * Local Server Information
  *************************/
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5500
 
 /* ***********************
  * Log statement to confirm server operation
  *************************/
 app.listen(port, () => {
-  console.log(`App listening on port ${port}`)
+  console.log(`🚀 App listening on port ${port}`)
 })
 
 module.exports = { app, pool }
