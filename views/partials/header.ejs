@@ -1,18 +1,22 @@
 <header id="top-header">
-  <span class="site-name">
-    <a href="/" title="Return to home page">CSE Motors</a>
-  </span>
-  <div id="tools">
-    <a href="/account/login" title="Click to log in">My Account</a>
+  <!-- Top row: site name + account link -->
+  <div class="top-header">
+    <div class="header-left">
+      <a href="/" class="site-name">CSE Motors</a>
+    </div>
+    <div class="header-right">
+      <a href="/account/login" class="account-link" title="Click to log in">MY ACCOUNT</a>
+    </div>
   </div>
 
-  <nav aria-label="Main navigation">
+  <!-- Second row: navigation -->
+  <nav class="header-nav" aria-label="Main navigation">
     <!-- Toggle button for mobile -->
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
 
     <!-- Nav links container -->
     <ul class="nav-links">
-      <li><a href="/">Home</a></li>
+      <li><a href="/" class="active">Home</a></li>
       <li><a href="/custom">Custom</a></li>
       <li><a href="/sedan">Sedan</a></li>
       <li><a href="/suv">SUV</a></li>
@@ -20,4 +24,5 @@
     </ul>
   </nav>
 </header>
+
 

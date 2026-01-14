@@ -30,39 +30,50 @@ h3 { font-size: 1.25rem; }
 
 /* ===== Header ===== */
 #top-header {
-  display: flex;
-  flex-direction: column; /* mobile default */
-  align-items: flex-start;
-  background: #004080; /* navy */
-  color: #FFFFFF;
+  background: #FFFFFF;
+  color: #1A1A1A;
   padding: 10px 20px;
 }
 
-#top-header a {
-  color: #FFFFFF;
-  text-decoration: none;
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.header-left .site-name {
+  font-size: 1.5rem;
   font-weight: bold;
+  color: #004080;
+  text-decoration: none;
 }
 
-#tools a {
-  margin-left: 15px;
+.header-right .account-link {
+  font-weight: bold;
+  color: #004080;
+  text-decoration: none;
 }
 
-/* ===== Navigation ===== */
-nav {
-  background: #004080; /* navy */
-  padding: 10px;
-  position: relative;
+.header-right .account-link:hover {
+  color: #FFB400;
+}
+
+/* Center nav row */
+.header-nav {
+  width: 100%;
+  text-align: center;
+  background: #004080;
+  padding: 10px 0;
 }
 
 .nav-links {
   list-style: none;
-  flex-direction: column; /* mobile default */
+  flex-direction: column;
   gap: 10px;
   margin: 0;
   padding: 10px;
-  display: none; /* hidden until toggled */
-  background: #004080;
+  display: none;
   transition: max-height 0.3s ease-out;
   overflow: hidden;
   max-height: 0;
@@ -76,14 +87,15 @@ nav {
 .nav-links li a {
   color: #FFFFFF;
   text-decoration: none;
+  padding: 5px;
+  border-radius: 4px;
+  font-weight: 500;
 }
 
 .nav-links li a:hover {
-  color: #FFB400; /* golden yellow */
+  color: #FFB400;
   text-decoration: underline;
   background-color: rgba(255, 255, 255, 0.1);
-  padding: 5px;
-  border-radius: 4px;
 }
 
 .nav-links li a:focus {
@@ -91,7 +103,11 @@ nav {
   outline-offset: 2px;
 }
 
-/* Toggle button visible on mobile */
+.nav-links li a.active {
+  color: #FFB400;
+  border-bottom: 2px solid #FFB400;
+}
+
 .nav-toggle {
   display: block;
   background: none;
@@ -107,20 +123,20 @@ nav {
 }
 
 .nav-toggle[aria-expanded="true"] {
-  color: #FFB400; /* highlight when active */
+  color: #FFB400;
 }
 
 /* ===== Home Container ===== */
 .home-container {
   padding: 15px;
-  border: 5px solid #222222; /* dark gray border */
+  border: 5px solid #222222;
   background: #FFFFFF;
   margin: 10px;
   width: 100%;
 }
 
 .home-container h1 {
-  text-align: center;
+  text-align: left; /* left aligned welcome heading */
   margin-bottom: 20px;
 }
 
@@ -136,27 +152,34 @@ nav {
   margin: 15px 0;
 }
 
-/* Responsive images globally */
-img {
-  max-width: 100%;
-  height: auto;
+/* Features row */
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 20px;       /* spacing between items */
+  margin: 15px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1A1A1A;
 }
 
 /* ===== Buttons ===== */
 .own-btn {
-  background: #FFB400; /* golden yellow */
-  color: #1A1A1A; /* dark text for contrast */
+  background: #FFB400;
+  color: #1A1A1A;
   border: none;
   padding: 15px;
   cursor: pointer;
   font-size: 1.1rem;
   border-radius: 4px;
-  width: 100%; /* mobile default */
+  width: 100%;
+  transition: transform 0.2s ease-in-out;
 }
 
 .own-btn:hover {
-  background: #008060; /* teal green */
+  background: #008060;
   color: #FFFFFF;
+  transform: scale(1.05);
 }
 
 .own-btn:focus {
@@ -167,7 +190,7 @@ img {
 /* ===== Columns Layout ===== */
 .columns {
   display: flex;
-  flex-direction: column; /* mobile default */
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -177,36 +200,87 @@ img {
 
 .upgrades h3, .reviews h3 {
   margin-bottom: 10px;
-  color: #008060; /* teal headings */
+  color: #008060;
+  font-weight: bold;
+}
+
+/* ===== Upgrades Grid ===== */
+.upgrade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
+  text-align: center;
+}
+
+.upgrade-item {
+  background: #007BFF;
+  padding: 15px;
+  border-radius: 8px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.upgrade-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 5px rgba(0,0,0,0.15);
+}
+
+.upgrade-item img {
+  background-color: #007BFF; /* white background behind the image itself */ padding: 10px; border-radius: 6px; max-width: 100px; height: auto; margin-bottom: 5px;
+}
+
+.upgrade-item p {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1A1A1A;
+}
+
+/* ===== Reviews Styling ===== */
+.reviews ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reviews li {
+  margin: 8px 0;
+  font-size: 1rem;
+  color: #1A1A1A;
+  line-height: 1.4;
+  padding-left: 20px;
+  position: relative;
+}
+
+.reviews li::before {
+  content: "⭐";
+  color: #FFB400;
+  position: absolute;
+  left: 0;
 }
 
 /* ===== Footer ===== */
 footer {
   text-align: center;
   padding: 15px;
-  background: #222222; /* dark gray */
+  background: #222222;
   color: #FFFFFF;
   margin-top: 20px;
 }
 
 /* ===== Larger Screens ===== */
 @media (min-width: 768px) {
-  #top-header {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
   .nav-toggle {
-    display: none; /* hide hamburger */
+    display: none;
   }
 
   .nav-links {
-    display: flex;
+    display: flex !important;
     flex-direction: row;
+    justify-content: center;
     gap: 20px;
-    max-height: none;
+    background: none;
     padding: 0;
+    max-height: none;
   }
 
   .home-container {
