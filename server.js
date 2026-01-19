@@ -12,6 +12,7 @@ const expressLayouts = require("express-ejs-layouts")
 const { Pool } = require("pg")   // PostgreSQL client
 const app = express()
 const staticRoutes = require("./routes/static")
+const inventoryRoutes = require("./routes/inventoryRoute")
 
 /* ***********************
  * View Engine and Templates
@@ -26,6 +27,10 @@ app.set("layout", "./layouts/layout")
 // Serve static files from the "public" folder
 app.use(express.static("public"))
 
+// Parse incoming form data
+app.use(express.urlencoded({ extended: true })) 
+app.use(express.json())
+
 /* ***********************
  * Routes
  *************************/
@@ -36,6 +41,10 @@ app.get("/", (req, res) => {
 
 // Mount static routes at root
 app.use("/", staticRoutes)
+
+// Mount inventory routes at /inventory
+app.use("/inv", inventoryRoutes)
+
 
 /* ***********************
  * Database Connection
