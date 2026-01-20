@@ -74,6 +74,19 @@ app.get("/db-test", async (req, res) => {
       
     });
 
+    // Route: GET /inv/:id // Purpose: Fetch a single vehicle from the inventory table by its inv_id // and render the detail view (inventory/detail.ejs). // If no vehicle is found, return a 404 error. // Handles database errors gracefully with a 500 response.
+
+    app.get("/inv/:id", async (req, res) => { 
+      const invId = req.params.id; 
+      try { 
+        const result = await pool.query("SELECT * FROM inventory WHERE inv_id = $1", [invId]); 
+        if (result.rows.length > 0) { 
+          res.render("inventory/detail", { title: "Vehicle Details", item: result.rows[0] });
+         } else { 
+          res.status(404).send("Vehicle not found");
+         } 
+        } catch (err) { console.error(err); res.status(500).send("Server error"); } });
+
 // Mount static routes at root
 app.use("/", staticRoutes)
 
