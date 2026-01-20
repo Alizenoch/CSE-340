@@ -6,5 +6,25 @@
 <body>
   <h1><%= title %></h1>
   <p>This is the inventory homepage.</p>
+
+ <h2>Items</h2>
+<ul>
+  <% if (items && items.length > 0) { %>
+    <% items.forEach(item => { %>
+      <li>
+        <%= item.inv_make %> <%= item.inv_model %> 
+        (<%= item.inv_year %>) — 
+        Color: <%= item.inv_color %>, 
+        Price: $<%= item.inv_price %>, 
+        Miles: <%= item.inv_miles %>
+      </li>
+    <% }) %>
+  <% } else { %>
+    <li>No items found in inventory.</li>
+  <% } %>
+</ul>
+
+
 </body>
-</html>
+</html> 
+

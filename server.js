@@ -12,7 +12,7 @@ const expressLayouts = require("express-ejs-layouts")
 const { Pool } = require("pg")   // PostgreSQL client
 const app = express()
 const staticRoutes = require("./routes/static")
-const inventoryRoutes = require("./routes/inventoryRoute")
+
 
 /* ***********************
  * View Engine and Templates
@@ -32,6 +32,20 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 /* ***********************
+* Database Connection
+*************************/
+
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL,
+   ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false }) 
+   // Test the connection on startup
+    pool.query("SELECT NOW()", (err, result) => { 
+      if (err) { console.error("❌ Database connection error:", err.message) 
+
+      } else {
+         console.log("✅ Connected to PostgreSQL at:", result.rows[0].now) } })
+
+/* ***********************
  * Routes
  *************************/
 // Explicit homepage route
@@ -39,30 +53,31 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Home" })
 })
 
+// Database route
+app.get("/db-test", async (req, res) => {
+   try { const result = await pool.query("SELECT NOW()"); 
+    res.send(`Database connected! Current time: ${result.rows[0].now}`); 
+  } 
+  catch (err) { console.error(err); 
+    res.status(500).send("Database connection failed"); } })
+
+    // Inventory route
+    app.get("/inv", async (req, res)=>{
+      try {
+        const result = await pool.query("SELECT * FROM inventory");
+        res.render("inventory/index", { title: "Inventory",  items: result.rows });
+      } catch  (err) {
+        console.error(err);
+        res.status(500).send("Error retrieving inventory data");
+
+      }
+      
+    });
+
 // Mount static routes at root
 app.use("/", staticRoutes)
 
-// Mount inventory routes at /inventory
-app.use("/inv", inventoryRoutes)
 
-
-/* ***********************
- * Database Connection
- *************************/
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  // Use SSL only in production (Render/Heroku)
-  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
-})
-
-// Test the connection on startup with a query
-pool.query("SELECT NOW()", (err, result) => {
-  if (err) {
-    console.error("❌ Database connection error:", err.message)
-  } else {
-    console.log("✅ Connected to PostgreSQL at:", result.rows[0].now)
-  }
-})
 
 /* ***********************
  * Local Server Information
