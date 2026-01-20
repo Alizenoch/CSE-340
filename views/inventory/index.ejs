@@ -63,6 +63,9 @@
           <p>Color: <%= item.inv_color %></p>
           <p>Price: $<%= item.inv_price %></p>
           <p>Miles: <%= item.inv_miles %></p>
+
+           <!-- Add this link -->
+    <a href="/inv/<%= item.inv_id %>">View Details</a>
         </div>
       <% }) %>
     <% } else { %>
