@@ -80,14 +80,12 @@ invController.buildById = async function (req, res, next) {
 }
 
 // inventoryController.js
-exports.triggerError = (req, res, next)  => {
-  try {
-    // Intentionally throw an error
-    throw new Error('Intentional 500 error triggered for testing');
-  } catch (err) {
-    next(err); // Pass error to middleware
+invController.triggerError = (req, res, next)  => {
+  const error = new Error('Intentional 500 error triggered for testing');
+  error.status = 500;
+    next(error); // Pass error to middleware
   }
-}
+
  
   // Export the Controller object at the end of the file
   module.exports = invController

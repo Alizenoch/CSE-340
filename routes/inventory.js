@@ -13,6 +13,6 @@ router.get("/type/:classificationId", invController.buildByClassificationId)
 router.get("/detail/:invId", invController.buildById)
 
 // Intentional error route
-router.get('/trigger-error' , inventoryController.triggerError);
+router.get('/trigger-error' , invController.triggerError);
 
 module.exports = router
