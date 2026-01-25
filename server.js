@@ -1,6 +1,6 @@
 /* ******************************************
- * This server.js file is the primary file of the 
- * application. It controls the project setup.
+ * Primary server.js file
+ * Controls project setup and configuration
  ******************************************/
 
 /* ***********************
@@ -11,8 +11,11 @@ const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const { Pool } = require("pg")   // PostgreSQL client
 const app = express()
-const staticRoutes = require("./routes/static")
 
+const staticRoutes = require("./routes/static")
+const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventory")
+const utilities = require("./utilities")
 
 /* ***********************
  * View Engine and Templates
@@ -32,64 +35,89 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 /* ***********************
-* Database Connection
-*************************/
+ * Database Connection
+ *************************/
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
+}) 
 
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL,
-   ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false }) 
-   // Test the connection on startup
-    pool.query("SELECT NOW()", (err, result) => { 
-      if (err) { console.error("❌ Database connection error:", err.message) 
-
-      } else {
-         console.log("✅ Connected to PostgreSQL at:", result.rows[0].now) } })
+// Test the connection on startup
+pool.query("SELECT NOW()", (err, result) => { 
+  if (err) { 
+    console.error("❌ Database connection error:", err.message) 
+  } else {
+    console.log("✅ Connected to PostgreSQL at:", result.rows[0].now) 
+  } 
+})
 
 /* ***********************
  * Routes
  *************************/
 // Explicit homepage route
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home" })
+app.get("/", baseController.buildHome)
+
+// Database test route
+app.get("/db-test", async (req, res) => {
+  try { 
+    const result = await pool.query("SELECT NOW()") 
+    res.send(`Database connected! Current time: ${result.rows[0].now}`) 
+  } catch (err) { 
+    console.error("db-test error:", err) 
+    res.status(500).send("Database connection failed") 
+  } 
 })
 
-// Database route
-app.get("/db-test", async (req, res) => {
-   try { const result = await pool.query("SELECT NOW()"); 
-    res.send(`Database connected! Current time: ${result.rows[0].now}`); 
-  } 
-  catch (err) { console.error(err); 
-    res.status(500).send("Database connection failed"); } })
-
-    // Inventory route
-    app.get("/inv", async (req, res)=>{
-      try {
-        const result = await pool.query("SELECT * FROM inventory");
-        res.render("inventory/index", { title: "Inventory",  items: result.rows });
-      } catch  (err) {
-        console.error(err);
-        res.status(500).send("Error retrieving inventory data");
-
-      }
-      
-    });
-
-    // Route: GET /inv/:id // Purpose: Fetch a single vehicle from the inventory table by its inv_id // and render the detail view (inventory/detail.ejs). // If no vehicle is found, return a 404 error. // Handles database errors gracefully with a 500 response.
-
-    app.get("/inv/:id", async (req, res) => { 
-      const invId = req.params.id; 
-      try { 
-        const result = await pool.query("SELECT * FROM inventory WHERE inv_id = $1", [invId]); 
-        if (result.rows.length > 0) { 
-          res.render("inventory/detail", { title: "Vehicle Details", item: result.rows[0] });
-         } else { 
-          res.status(404).send("Vehicle not found");
-         } 
-        } catch (err) { console.error(err); res.status(500).send("Server error"); } });
-
-// Mount static routes at root
+// Mount static and inventory routes
 app.use("/", staticRoutes)
+app.use("/inventory", inventoryRoute)
 
+/* ***********************
+ * File Not Found Route (404)
+ *************************/
+app.use(async (req, res, next) => { 
+  try {
+    let nav = await utilities.getNav() 
+    res.status(404).render("errors/404", { 
+      title: "404 - File Not Found", 
+      message: "Sorry, the page you are looking for does not exist.", 
+      nav 
+    }) 
+  } catch (error) {
+    console.error("404 handler error:", error)
+    res.status(404).send("404 - Page Not Found")
+  }
+})
+
+/* ***********************
+ * Express Error Handler (500)
+ *************************/
+app.use(async (err, req, res, next) => {
+  try {
+    let nav = await utilities.getNav()
+    console.error(`Error at "${req.originalUrl}": ${err.message}`)
+    res.status(err.status || 500).render("errors/500", {
+      title: "500 - Server Error",
+      message: err.message,
+      nav
+    }) 
+  } catch (navError) {
+    console.error("500 handler nav error:", navError)
+    res.status(500).send("Server Error")
+  }
+})
+
+
+/* ***********************
+ * Intentional Error
+ *********************** */
+app.use((err, req, res, next) => {
+  console.error(err.stack); // log error for debugging
+  res.status(500).render('errorView' { 
+  message: 'Something went wrong!',
+  status: 500
+  });
+});
 
 
 /* ***********************
@@ -97,11 +125,14 @@ app.use("/", staticRoutes)
  *************************/
 const port = process.env.PORT || 5500
 
-/* ***********************
- * Log statement to confirm server operation
- *************************/
-app.listen(port, () => {
+app.listen(port, ()  => {
   console.log(`🚀 App listening on port ${port}`)
+}).on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.error(`❌ Port ${port} is already in use. Try a different PORT in env.`)
+  } else {
+    console.error(err)
+  }
 })
 
 module.exports = { app, pool }

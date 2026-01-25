@@ -4,14 +4,16 @@
 
 <div class="vehicle-detail">
   <img src="<%= item.inv_image %>" 
-       alt="<%= item.inv_make %> <%= item.inv_model %>" 
+       alt="Image of <%= item.inv_make %> <%= item.inv_model %>" 
        class="vehicle-image">
 
   <div class="vehicle-info">
+    <h2 class="vehicle-price"> 
+      <%= new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(item.inv_price) %>
+    </h2>
     <p><strong>Description:</strong> <%= item.inv_description %></p>
     <p><strong>Color:</strong> <%= item.inv_color %></p>
-    <p><strong>Price:</strong> $<%= item.inv_price %></p>
-    <p><strong>Miles:</strong> <%= item.inv_miles %></p>
+    <p><strong>Miles:</strong> <%= new Intl.NumberFormat("en-US").format(item.inv_miles) %> miles</p>
   </div>
 </div>
 
