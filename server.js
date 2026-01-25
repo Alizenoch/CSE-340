@@ -68,9 +68,17 @@ app.get("/db-test", async (req, res) => {
   } 
 })
 
+// Intentional error route for testing
+app.get("/trigger-error", (req, res, next) =>  {
+  const error = new Error("Intentional 500 error triggered for testing");
+  error.status = 500;
+  next(error); // Pass to error middleware
+});
+
+
 // Mount static and inventory routes
 app.use("/", staticRoutes)
-app.use("/inventory", inventoryRoute)
+app.use("/inventory", inventoryRoute) 
 
 /* ***********************
  * File Not Found Route (404)
@@ -106,18 +114,6 @@ app.use(async (err, req, res, next) => {
     res.status(500).send("Server Error")
   }
 })
-
-
-/* ***********************
- * Intentional Error
- *********************** */
-app.use((err, req, res, next) => {
-  console.error(err.stack); // log error for debugging
-  res.status(500).render('errorView' { 
-  message: 'Something went wrong!',
-  status: 500
-  });
-});
 
 
 /* ***********************
