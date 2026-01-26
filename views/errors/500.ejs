@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-  <header>
-    <nav>
-      <%- nav %> <!-- raw HTML navigation -->
-    </nav>
-  </header>
-  
+
+ 
   <main class="error-container">
     <!-- Main heading uses the "title" -->
     <h1 class= "error-title"><%= title %> (500)</h1>
@@ -24,13 +12,9 @@
     <!-- Optional humor to soften the blow -->
     <p class="error-humor">
       Oops! Even our servers need coffee breaks ☕.<br>
-      Try refreshing, or head back <a href="/">home</a>, or 
-      <a href="javascript:history.back()">go back</a>.
+      Try refreshing, or head back <a href="/" aria-label="Return to homepage">home</a>, or  
+      <a href="javascript:history.back()" aria-label="Go back to the previous page">go back</a>.
     </p> 
   </main>
 
-  <footer> class="error-footer">
-    <p>&copy; <%= new Date().getFullYear() %> My App</p>
-  </footer>
-</body>
-</html>
+
