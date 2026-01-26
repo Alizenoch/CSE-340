@@ -82,8 +82,6 @@ h3 { font-size: 1.25rem; }
     margin-left: 20px;
   }
 }
-
-
   
 /* ===== Header ===== */
 #top-header {
@@ -394,7 +392,7 @@ footer {
 
 /* ====== Error Page Styling ===== */
 .error-container {
-  max-width: 600px;
+  max-width: 800px;
   margin: 5rem auto;
   text-align: center;
   background: #fff8f8;
@@ -402,7 +400,6 @@ footer {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-
 
 .error-title {
   font-size: 2.2rem;
@@ -412,18 +409,18 @@ footer {
 }
 
 .error-message {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   color: #721c24;
   background: #f8d7da;  /* light red background */
   padding: 1rem;
   border-radius: 6px;
   margin-bottom: 1.5rem;
-  line-height: 1.5;
+  line-height: 1.6;
   font-weight: 500;
 }
 
 .error-humor {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #555;    /* softer gray for humor text */
   line-height: 1.6;
   font-style: italic;
@@ -435,43 +432,6 @@ footer {
   text-align: center;
   font-size: 0.9rem;
   color: #1A1A1A;    /* consisten with body text */
-}
-
-.error-container {
-  max-width: 600px;
-  margin: 5rem auto;
-  padding: 2rem;
-  text-align: center;
-  background: #fff8f8;
-  border: 1px solid #f5c2c2;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.error-title {
-  font-size: 2.2rem;
-  color: #d9534f;
-  margin-bottom: 1rem;
-  font-weight: bold;
-}
-
-.error-message {
-  font-size: 1.1rem;
-  color: #721c24;
-  background: #f8d7da;
-  padding: 1rem;
-  border-radius: 6px;
-  margin-bottom: 1.5rem;
-  line-height: 1.5rem;
-  font-weight: 500
-}
-
-.error-humor {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.6;
-  font-style: italic;
-  margin-top: 1rem;
 }
 
 .error-humor a {
