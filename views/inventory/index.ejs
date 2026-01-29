@@ -3,52 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title><%= title %></title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .inventory-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-    .inventory-card {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 15px;
-      width: 250px;
-      text-align: center;
-      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-      background-color: #fafafa;
-    }
-    .inventory-card img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 4px;
-      margin-bottom: 10px;
-    }
-    .inventory-card h3 {
-      margin: 10px 0;
-      font-size: 1.2em;
-    }
-    .inventory-card p {
-      margin: 5px 0;
-      font-size: 0.95em;
-    }
-    .no-items {
-      text-align: center;
-      font-style: italic;
-      color: #666;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+  <%-include('../partials/header') %>
+
+  <main>
   <h1><%= title %></h1>
   <p style="text-align:center;">This is the inventory homepage.</p>
 
@@ -56,22 +16,25 @@
     <% if (items && items.length > 0) { %>
       <% items.forEach(item => { %>
         <div class="inventory-card">
-          <a href="/inv/<%= item.inv_id %>">
+          <a href="/inventory/details/<%= item.inv_id %>">
             <h3><%= item.inv_make %> <%= item.inv_model %> (<%= item.inv_year %>)</h3>
           </a>
-          <img src="<%= item.inv_image %>" alt="<%= item.inv_make %> <%= item.inv_model %>">
+          <img src="<%= item.inv_image %>" 
+          alt="Photo of <%= item.inv_year %> <%= item.inv_color %> <%= item.inv_make %> <%= item.inv_model %>">
           <p>Color: <%= item.inv_color %></p>
-          <p>Price: $<%= item.inv_price %></p>
-          <p>Miles: <%= item.inv_miles %></p>
+          <p>Price: <%= new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(item.inv_price) %></p>
+          <p>Miles: <%= new Intl.NumberFormat("en-US").format(item.inv_miles) %> miles</p>
 
            <!-- Add this link -->
-    <a href="/inv/<%= item.inv_id %>">View Details</a>
+    <a href="/inventory/details/<%= item.inv_id %>">View Details</a>
         </div>
       <% }) %>
     <% } else { %>
       <p class="no-items">No items found in inventory.</p>
     <% } %>
   </div>
+  </main>
+  <%- include('../partials/footer') %>
 </body>
 </html>
 

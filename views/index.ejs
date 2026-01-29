@@ -2,6 +2,24 @@
   <!-- Welcome heading -->
   <h1>DMC DeLorean</h1>
   
+
+  <!-- Flash messages -->
+  <% if (messages.notice) { %>
+    <div class="flash notice">
+      <% messages.notice.forEach(function(msg) { %>
+        <p><%= msg %></p>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <% if (messages.error) { %>
+    <div class="flash error">
+      <% messages.error.forEach(function(msg) { %>
+        <p><%= msg %></p>
+      <% }) %>
+    </div>
+  <% } %>
+  
   <!-- Featured car section -->
   <section class="featured-car">
   <h2>Welcome to CSE Motors</h2>

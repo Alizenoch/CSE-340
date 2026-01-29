@@ -6,12 +6,13 @@ const pool = require("../database/")
 async function getClassifications() {
   try {
     const data = await pool.query(
-      "SELECT * FROM public.classification ORDER BY classification_name"
+      // ✅ corrected: explicitly select only needed columns
+      "SELECT classification_id, classification_name FROM public.classification ORDER BY classification_name"
     )
     return data.rows
   } catch (error) {
-    console.error("getClassifications error:", error)
-    throw error // re-throw so controller can handle
+    console.error("getClassifications error:", error.message)
+    throw error
   }
 }
 
@@ -21,16 +22,20 @@ async function getClassifications() {
 async function getInventoryByClassification(classificationId) {
   try {
     const data = await pool.query(   
-      `SELECT * FROM public.inventory AS i
+      // ✅ corrected: explicitly select inventory fields + classification_name
+      `SELECT i.inv_id, i.inv_make, i.inv_model, i.inv_year, i.inv_price, 
+              i.inv_miles, i.inv_color, i.inv_description, i.inv_image, i.inv_thumbnail,
+              c.classification_name
+       FROM public.inventory AS i
        JOIN public.classification AS c
-       ON i.classification_id = c.classification_id
+         ON i.classification_id = c.classification_id
        WHERE i.classification_id = $1`,
-      [classificationId] // ✅ fixed
+      [classificationId]
     )
     return data.rows
   } catch (error) {
-    console.error("getInventoryByClassification error:", error)
-    throw error // re-throw so controller can handle
+    console.error("getInventoryByClassification error:", error.message)
+    throw error
   }
 }
 
@@ -40,19 +45,23 @@ async function getInventoryByClassification(classificationId) {
 async function getItemById(invId) {
   try {
     const data = await pool.query(
-      `SELECT * FROM public.inventory AS i
+      // ✅ corrected: explicitly select inventory fields + classification_name
+      `SELECT i.inv_id, i.inv_make, i.inv_model, i.inv_year, i.inv_price, 
+              i.inv_miles, i.inv_color, i.inv_description, i.inv_image, i.inv_thumbnail,
+              c.classification_name
+       FROM public.inventory AS i
        JOIN public.classification AS c
-       ON i.classification_id = c.classification_id
+         ON i.classification_id = c.classification_id
        WHERE i.inv_id = $1`,
       [invId]
     )
     return data.rows[0] // return just one vehicle object
   } catch (error) {
-    console.error("getItemById error:", error)
-    throw error // re-throw so controller can handle
+    console.error("getItemById error:", error.message)
+    throw error
   }
 }
-
+ 
 module.exports = {
   getClassifications,
   getInventoryByClassification,

@@ -12,7 +12,7 @@ Util.getNav = async function (req, res, next) {
 
     data.forEach((row) => {
         list += "<li>"
-        list += `<a href="/inv/type/${row.classification_id}"
+        list += `<a href="/inventory/type/${row.classification_id}"
         title="See our inventory of ${row.classification_name} vehicles">
         ${row.classification_name}</a>
         </li>`
@@ -37,15 +37,15 @@ Util.buildClassificationGrid = async function (data) {
       grid = '<ul id="inv-display">'
       data.forEach((vehicle) => {
         grid += `<li>
-          <a href="../../inv/detail/${vehicle.inv_id}" 
+          <a href="/inventory/details/${vehicle.inv_id}" 
           title="View ${vehicle.inv_make} ${vehicle.inv_model} details">
-            <img src="${vehicle.inv_thumbnail}" 
+            <img src="${vehicle.inv_image}" 
             alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors" />
           </a>
           <div class="namePrice">
             <hr />
             <h2>
-              <a href="../../inv/detail/${vehicle.inv_id}" 
+              <a href="/inventory/details/${vehicle.inv_id}" 
               title="View ${vehicle.inv_make} ${vehicle.inv_model} details">
                 ${vehicle.inv_make} ${vehicle.inv_model}
               </a>
