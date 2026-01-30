@@ -100,7 +100,7 @@ app.get("/trigger-error", (req, res, next) =>  {
 // Mount static and inventory routes
 app.use("/", staticRoutes)
 app.use("/inventory", inventoryRoute) 
-// app.use("/account", accountsRouter)
+app.use("/account", accountsRouter)
 
 /* ***********************
  * File Not Found Route (404)

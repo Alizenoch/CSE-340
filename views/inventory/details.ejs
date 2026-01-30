@@ -1,7 +1,6 @@
 <main>
   <h1>
-    <%= item.inv_make %>
-      <%= item.inv_model %> (<%= item.inv_year %>)
+    <%= item.inv_make %> <%= item.inv_model %> (<%= item.inv_year %>)
   </h1>
 
   <section class="vehicle-detail" aria-label="Vehicle details">
@@ -11,15 +10,11 @@
       <h2 class="vehicle-price">
         <%= new Intl.NumberFormat("en-US", { style: "currency" , currency: "USD" }).format(item.inv_price) %>
       </h2>
-      <p><strong>Description:</strong>
-        <%= item.inv_description %>
+      <p><strong>Description:</strong> <%= item.inv_description %>
       </p>
-      <p><strong>Color:</strong>
-        <%= item.inv_color %>
-      </p>
-      <p><strong>Miles:</strong>
-        <%= new Intl.NumberFormat("en-US").format(item.inv_miles) %> miles
-      </p>
+      <p><strong>Color:</strong> <%= item.inv_color %></p>
+      <p><strong>Miles:</strong><%= new Intl.NumberFormat("en-US").format(item.inv_miles) %> miles</p>
+      <p><strong>Classification:</strong> <%=item.classification_name %></p>
     </div>
   </section>
 
