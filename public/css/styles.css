@@ -438,8 +438,10 @@ footer {
   }
 }
 
-/* ===== Login Form ===== */
-.login-form {
+
+/* ===== Account Form (Login & Register) ===== */
+.login-form,
+.register-form {
   max-width: 400px;
   margin: 60px auto;
   padding: 30px;
@@ -449,14 +451,19 @@ footer {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-.login-form label {
+.login-form label,
+.register-form label {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
 }
 
+.login-form input[type="text"],
 .login-form input[type="email"],
-.login-form input[type="password"] {
+.login-form input[type="password"],
+.register-form input[type="text"],
+.register-form input[type="email"],
+.register-form input[type="password"] {
   width: 100%;
   padding: 12px;
   margin-bottom: 20px;
@@ -465,7 +472,8 @@ footer {
   font-size: 1rem;
 }
 
-.login-form button {
+.login-form button,
+.register-form button {
   width: 100%;
   padding: 12px;
   background: #fff;
@@ -478,7 +486,8 @@ footer {
   transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-.login-form button:hover {
+.login-form button:hover,
+.register-form button:hover {
   background: var(--secondary);
   color: var(--neutral);
 }
@@ -496,4 +505,39 @@ footer {
 
 .register-link a:hover {
   text-decoration: underline;
+}
+
+
+.flash-notice {
+  background-color: #d4edda;   /* soft green background */
+  color: #155724;              /* dark green text */
+  border: 1px solid #c3e6cb;   /* matching border */
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+/* ===== Vehicle Classification Headings ===== */
+.classification-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);   /* dark blue from your palette */
+  text-align: center;
+  margin: 30px 0 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 3px solid var(--secondary); /* gold underline */
+  display: block;
+  padding-bottom: 5px;
+}
+
+.classification-subheading {
+  font-size: 1.2rem;
+  color: var(--text-light); /* softer gray tone */
+  text-align: center;
+  margin-bottom: 25px;
+  font-style: italic;
 }

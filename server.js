@@ -1,7 +1,7 @@
-/* ******************************************
+/* ******************************
  * Primary server.js file
  * Controls project setup and configuration
- ******************************************/
+ ****************************** */
 
 /* ***********************
  * Require Statements
@@ -20,6 +20,8 @@ const inventoryRoute = require("./routes/inventory")
 const utilities = require("./utilities")
 
 const accountsRouter = require('./routes/accountRoute');
+
+// const bodyParser = require("body-parser")
 
 
 /* ***********************
@@ -51,12 +53,25 @@ app.use(session({
     name: 'sessionId', 
 }))
 
+
 const flash = require("connect-flash")
 app.use(flash())
-app.use((req,res, next) => {
+
+app.use((req, res, next) => {
+  // Expose specific flash categories
+  res.locals.notice = req.flash("notice")
+  res.locals.error = req.flash("error")
+  res.locals.success = req.flash("success")
+
+  // Keep your generic messages object too if you want
   res.locals.messages = req.flash()
   next()
 })
+
+
+// app.use(bodyParser.json())
+//app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 
 /* ***********************
  * Database Connection

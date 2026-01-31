@@ -14,6 +14,15 @@ const utils = require('../utilities');
  // Wrap the controller function with utilities.handleErrors 
   router.get('/login', utils.handleErrors(accountsController.buildLogin));
 
-module.exports = router;
+  // Route to build the registration view
+  router.get('/register', utils.handleErrors(accountsController.buildRegister));
+
+  // Route to process the form
+  router.post('/login', utils.handleErrors(accountsController.processLogin))
+  
+// Route to process the registration form
+  router.post('/register', utils.handleErrors(accountsController.registerAccount))
+  
+  module.exports = router;
 
 
