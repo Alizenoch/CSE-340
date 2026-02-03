@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const pool = require("../database") // keep this for querying classification
 const Util = {}
 
 /* *******************************
@@ -7,9 +8,9 @@ const Util = {}
 Util.getNav = async function () {
   try {
     let data = await invModel.getClassifications()
-    let list = "<ul>"
+    let list = '<ul class="nav-links">'
     list += '<li><a href="/" title="Home page">Home</a></li>'
-    list += '<li><a href="/inv/" title="Inventory Management">Management</a></li>'
+    //list += '<li><a href="/inv/management" title="Inventory Management">Management</a></li>'
 
     data.forEach((row) => {
       list += "<li>"
@@ -20,7 +21,7 @@ Util.getNav = async function () {
     })
         
     list += "</ul>"
-    console.log("Generated nav:", list)
+    // console.log("Generated nav:", list)
     return list
   } catch (error) {
     console.error("getNav error:", error)
@@ -28,6 +29,27 @@ Util.getNav = async function () {
   }        
 }
 
+/* **********************************
+ * Build classification dropdown List
+ * ******************************** */
+ Util.buildClassificationList = async function(selectedId = null) { 
+  try { 
+    const data = await pool.query( "SELECT classification_id, classification_name FROM public.classification ORDER BY classification_name" 
+
+    )
+    
+    let options = "" // ✅ renamed to match return 
+    data.rows.forEach(row => {
+       const selected = selectedId == row.classification_id ? "selected" : ""
+        options += `<option value="${row.classification_id}" ${selected}>${row.classification_name}</option>` 
+      }) 
+        return options // ✅ now consistent 
+      } catch (error) {
+         console.error("buildClassificationList error:", error) 
+         return "<option value=''>Error loading classifications</option>" // ✅ corrected HTML 
+      } 
+    }
+ 
 
 /* ********************************
  * Build the classification view HTML
@@ -38,7 +60,7 @@ Util.buildClassificationGrid = async function (data) {
     if (data.length > 0) {
       grid = '<ul id="inv-display">'
       data.forEach((vehicle) => {
-        console.log("Vehicle row:", vehicle)
+       // console.log("Vehicle row:", vehicle)
 
         // ✅ Use full image if available, otherwise fallback to thumbnail
         const imagePath = vehicle.inv_image || vehicle.inv_thumbnail

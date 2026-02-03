@@ -86,15 +86,25 @@ invController.triggerError = (req, res, next) => {
 /* ================================
    Management View
 ================================ */
-invController.showManagement = (req, res) => {
-  res.render("inventory/management", {
-    title: "Inventory Management",
-    messages: {
-      error: req.flash("error"),
-      success: req.flash("success")
-    }
-  })
+invController.showManagement = async (req, res, next) => {
+  try {
+    const nav = await utilities.getNav()
+    res.render("inventory/management", {
+      title: "Inventory Management",
+      nav,
+      showGlobalHeader: false,
+      
+      messages: {
+        error: req.flash("error"),
+        success: req.flash("success")
+      },
+      showGlobalFooter: false // hide global footer
+    })
+  } catch (error) {
+    next(error)
+  }
 }
+
 
 /* ================================
    Add Classification (GET)
@@ -108,7 +118,9 @@ invController.buildAddClassification = async (req, res, next) => {
       messages: {
         error: req.flash("error"),
         success: req.flash("success")
-      }
+      },
+      showGlobalHeader: false,
+      showGlobalFooter: false
     })
   } catch (error) {
     next(error)
@@ -130,7 +142,9 @@ invController.buildAddInventory = async (req, res, next) => {
       messages: {
         error: req.flash("error"),
         success: req.flash("success")
-      }
+      },
+      showGlobalHeader: false,
+      showGlobalFooter: false
     })
   } catch (error) {
     next(error)

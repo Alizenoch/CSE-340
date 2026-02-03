@@ -6,17 +6,23 @@
     <%- include('../partials/head') %>
   </head>
   <body>
-    
+      
+    <% if (typeof showGlobalHeader === "undefined" || showGlobalHeader !== false) { %>
       <%- include('../partials/header') %>
+      <% } %>
 
       <main role="main">
        
-
         
         <%- body %>
       </main>
-
-      <%- include('../partials/footer') %>
+      
+      <% if (typeof showGlobalFooter == "undefined" || showGlobalFooter !== false) { %>
+       <footer>
+        <p>@ 2026, CSE 340 App</p>
+        </footer>
+  
+      <% } %>  
     
 
     <script>

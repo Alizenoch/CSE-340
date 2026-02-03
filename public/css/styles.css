@@ -541,3 +541,285 @@ footer {
   margin-bottom: 25px;
   font-style: italic;
 }
+
+
+/* ===== Inventory Management === */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: 
+    linear-gradient(45deg, #ccc 25%, transparent 25%),
+    linear-gradient(-45deg, #ccc 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #ccc 75%),
+    linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-size: 40px 40px;
+  background-color: #fff;
+}
+
+.page-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Row 1: Site name + account */
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.site-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.account-link {
+  font-weight: bold;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.account-link:hover {
+  color: var(--secondary);
+}
+
+/* Row 2: Navigation bar */
+.header-nav {
+  text-align: center;
+  background: var(--primary);
+  padding: 10px 0;
+}
+
+.header-nav a {
+  color: #fff;
+  margin: 0 0.75rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.header-nav a:hover {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+/* Vehicle Management section */
+.management {
+  text-align: left;
+  margin-top: 2rem;
+}
+
+.button-group {
+  display: block;
+  margin-top: 1rem;
+  padding-left: 2.5rem;
+}
+
+.management a {
+  display: block;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  background: none;
+  color: #006666;
+  text-decoration: underline;
+  font-weight: normal;
+  
+}
+
+.management a:hover {
+  color: #004080;
+  text-decoration: underline;
+}
+
+/* Management page footer inside the container */
+.container-footer {
+  background-color: #fff;
+  padding: 1rem;
+  text-align: center;
+  color: #333;
+  box-shadow: none;
+  border-top: 1px solid #ddd;
+}
+
+.container-footer a { color: #0066cc; text-decoration: underline; } .container-footer a:hover { color: #004080; }
+
+.management-box {
+  max-width: 600px;
+  margin: 8rem auto 6rem ;              /* center horizontally */
+  background: #fff;               /* white background */
+  padding: 2rem;                  /* space inside */
+  border-radius: 8px;             /* rounded corners */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* subtle shadow */
+  text-align: center;             /* center content */
+}
+
+.management-box h1 {
+  margin-top: 0;
+  font-size: 1.8rem;
+  color: var(--primary);
+}
+
+.management-box .button-group {
+  margin: 1.5rem 0;
+}
+
+.management-box .button-group a {
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 5px;
+  background-color: var(--secondary);
+  color: var(--neutral);
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.management-box .button-group a:hover {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+
+/* Classification Form Container */
+.classification-form {
+  max-width: 500px;
+  margin: 3rem auto;              /* center on page */
+  padding: 2rem;
+  background: #fff;               /* white card */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Heading */
+.classification-form h1 {
+  font-size: 1.8rem;
+  color: var(--primary);          /* dark blue */
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Instruction text */
+.classification-form p {
+  text-align: center;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+/* Label + Input */
+.classification-form label {
+  display: block;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.classification-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.classification-form input[type="text"]:focus {
+  border-color: var(--secondary); /* gold highlight */
+  outline: none;
+}
+
+/* Button */
+.classification-form button {
+  width: 100%;
+  padding: 12px;
+  background: var(--secondary);   /* gold */
+  color: var(--neutral);          /* dark text */
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.classification-form button:hover {
+  background: var(--primary);     /* dark blue */
+  color: #fff;
+  transform: scale(1.05);
+}
+
+
+/* Inventory Form Container */
+.inventory-form {
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;               /* white card */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Heading */
+.inventory-form h1 {
+  font-size: 1.8rem;
+  color: var(--primary);          /* dark blue */
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Labels */
+.inventory-form label {
+  display: block;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+/* Inputs & Textareas */
+.inventory-form input[type="text"],
+.inventory-form input[type="number"],
+.inventory-form input[type="email"],
+.inventory-form input[type="password"],
+.inventory-form textarea,
+.inventory-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.inventory-form input:focus,
+.inventory-form textarea:focus,
+.inventory-form select:focus {
+  border-color: var(--secondary); /* gold highlight */
+  outline: none;
+}
+
+/* Button */
+.inventory-form button {
+  width: 100%;
+  padding: 12px;
+  background: var(--secondary);   /* gold */
+  color: var(--neutral);          /* dark text */
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.inventory-form button:hover {
+  background: var(--primary);     /* dark blue */
+  color: #fff;
+  transform: scale(1.05);
+}

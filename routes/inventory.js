@@ -16,16 +16,16 @@ router.get("/details/:invId", invController.buildByInvId);
 router.get("/management", invController.showManagement);
 
 // Add Classification (GET + POST)
-router.get("/add-classification/add", invController.buildAddClassification);
-router.post("/add-classification/add",
+router.get("/add-classification", invController.buildAddClassification);
+router.post("/add-classification",
     invValidate.classificationRules(),
     invValidate.checkClassificationData,   // ✅ added
     invController.processAddClassification
 );
 
 // Add Inventory (GET + POST)
-router.get("/add-inventory/add", invController.buildAddInventory);
-router.post("/add-inventory/add", 
+router.get("/add-inventory", invController.buildAddInventory);
+router.post("/add-inventory", 
     invValidate.inventoryRules(),
     invValidate.checkInventoryData,
     invController.processAddInventory
