@@ -3,71 +3,60 @@ const utilities = require("../utilities/")
 
 const invController = {}
 
-// Inventory homepage
+/* ================================
+   Inventory Homepage
+================================ */
 invController.buildInventory = async (req, res, next) => {
   try {
-    // Build the navigation
-    const nav = await utilities.getNav();
-    
-    // Render homepage with nav included
+    const nav = await utilities.getNav()
     res.render("inventory/index", { 
       title: "Inventory Management",
       nav
-    });
+    })
   } catch (error) {
-    next(error) // Forward errors to global handler
+    next(error)
   }
 }
 
-// Build inventory Classification view
-invController.buildByClassificationId = async function (req, res, next) {
+/* ================================
+   Classification View
+================================ */
+invController.buildByClassificationId = async (req, res, next) => {
   try {
-    // 1. Get classification ID from URL
     const classificationId = req.params.classificationId
-
-    // 2. Query database for vehicles in this classification
     const data = await invModel.getInventoryByClassification(classificationId)
-
-    // 3. Build grid and navigation
-    const grid = await utilities.buildClassificationGrid(data) 
     const nav = await utilities.getNav()
-  
-    // 4. Handle case where no data is found
+
     if (!data || data.length === 0) {
-      return res.status(404).render("errors/404", { 
-        title: "Classification Not Found", 
+      return res.render("inventory/classification", {
+        title: "No Vehicles Found", 
         nav,
+        grid: "<p>No vehicles are available in this classification.</p>"
       })
     }
 
-    // 5. Render classification view
+    const grid = await utilities.buildClassificationGrid(data)    
     const className = data[0].classification_name
+
     res.render("inventory/classification", {
       title: `${className} Vehicles`,
       nav,
       grid
     })
   } catch (error) {
-    next(error) // Forward errors to global handler
+    next(error)
   }
 }
 
-// New detail view controller with debug logging
-invController.buildByInvId = async function (req, res, next) {
+/* ================================
+   Detail View (Single Item)
+================================ */
+invController.buildByInvId = async (req, res, next) => {
   try {
-    // 1. Get the inventory ID from the URL parameter
     const invId = req.params.invId
-    console.log("Requested invId:", invId)   // Debug log
-    
-
-    // 2. Query the database for this specific item
     const itemData = await invModel.getItemById(invId)
-    console.log("Item data:", itemData)     // Debug log
-    
-    // 3. Build the navigation
     const nav = await utilities.getNav()
 
-    // 4. Handle case where item is not found
     if (!itemData) {
       return res.status(404).render("errors/404", {
         title: "Item Not Found",
@@ -75,22 +64,135 @@ invController.buildByInvId = async function (req, res, next) {
       })
     }
 
-    // 5. Render the single detail view 
     res.render("inventory/details", {
       title: `${itemData.inv_make} ${itemData.inv_model} (${itemData.inv_year})`,
       nav,
       item: itemData
     }) 
   } catch (error) {
-    next(error) // Pass errors to Express error handler
+    next(error)
   }
 }
 
-invController.triggerError = (req, res, next)  => {
-  const error = new Error('Intentional 500 error triggered for testing');
-  error.status = 500;
-  next(error); // Pass error to middleware
+/* ================================
+   Error Testing Route
+================================ */
+invController.triggerError = (req, res, next) => {
+  const error = new Error("Intentional 500 error triggered for testing")
+  error.status = 500
+  next(error)
 }
 
-// Export the Controller object at the end of the file
+/* ================================
+   Management View
+================================ */
+invController.showManagement = (req, res) => {
+  res.render("inventory/management", {
+    title: "Inventory Management",
+    messages: {
+      error: req.flash("error"),
+      success: req.flash("success")
+    }
+  })
+}
+
+/* ================================
+   Add Classification (GET)
+================================ */
+invController.buildAddClassification = async (req, res, next) => {
+  try {
+    const nav = await utilities.getNav()
+    res.render("inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      messages: {
+        error: req.flash("error"),
+        success: req.flash("success")
+      }
+    })
+  } catch (error) {
+    next(error)
+  }  
+}
+
+/* ================================
+   Add Inventory Item (GET)
+================================ */
+invController.buildAddInventory = async (req, res, next) => {
+  try {
+    const nav = await utilities.getNav()
+    // ✅ CHANGE: build classification list dynamically
+    const classificationList = await utilities.buildClassificationList()
+    res.render("inventory/add-inventory", {
+      title: "Add New Inventory Item",
+      nav,
+      classificationList, // ✅ CHANGE: pass to view
+      messages: {
+        error: req.flash("error"),
+        success: req.flash("success")
+      }
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+/* ================================
+   Add Classification (POST)
+================================ */
+invController.processAddClassification = async (req, res, next) => {
+  try {
+    const { classificationName } = req.body
+    await invModel.addClassification(classificationName)
+    req.flash("success", "Classification added successfully!")
+    res.redirect("/inv/management")
+  } catch (error) {
+    req.flash("error", "Failed to add classification.")
+    next(error)
+  }  
+}
+
+/* ================================
+   Add Inventory Item (POST)
+================================ */
+invController.processAddInventory = async (req, res, next) => {
+  try {
+    const { make, model, year, price, miles, color, description, image, thumbnail, classificationId } = req.body
+    const result = await invModel.addInventory({ make, model, year, price, miles, color, description, image, thumbnail, classificationId })
+
+    if (result) {
+      req.flash("success", "Vehicle added successfully!")
+      res.redirect("/inv/management")
+    } else {
+      throw new Error("Insert failed")
+    }
+  } catch (error) {
+    req.flash("error", "Failed to add vehicle.")
+    const nav = await utilities.getNav()
+    const classificationList = await utilities.buildClassificationList(req.body.classificationId)
+    res.render("inventory/add-inventory", {
+      title: "Add New Inventory Item",
+      nav,
+      classificationList,
+      make: req.body.make,
+      model: req.body.model,
+      year: req.body.year,
+      price: req.body.price,
+      miles: req.body.miles,
+      color: req.body.color,
+      description: req.body.description,
+      image: req.body.image,
+      thumbnail: req.body.thumbnail,
+      messages: {
+        error: req.flash("error"),
+        success: req.flash("success")
+      }
+    })
+  }
+}
+
+/* ================================
+   Export Controller
+================================ */
 module.exports = invController
+

@@ -4,21 +4,23 @@ const Util = {}
 /* *******************************
  * Constructs the nav HTML unordered list
 ************************************/
-Util.getNav = async function (req, res, next) {
+Util.getNav = async function () {
   try {
-    let data = await invModel.getClassifications() // returns rows array 
+    let data = await invModel.getClassifications()
     let list = "<ul>"
     list += '<li><a href="/" title="Home page">Home</a></li>'
+    list += '<li><a href="/inv/" title="Inventory Management">Management</a></li>'
 
     data.forEach((row) => {
       list += "<li>"
-      list += `<a href="/inventory/type/${row.classification_id}"
+      list += `<a href="/inv/classification/${row.classification_id}"
         title="See our inventory of ${row.classification_name} vehicles">
         ${row.classification_name}</a>
         </li>`
     })
         
     list += "</ul>"
+    console.log("Generated nav:", list)
     return list
   } catch (error) {
     console.error("getNav error:", error)
@@ -42,7 +44,7 @@ Util.buildClassificationGrid = async function (data) {
         const imagePath = vehicle.inv_image || vehicle.inv_thumbnail
 
         grid += `<li>
-          <a href="/inventory/details/${vehicle.inv_id}" 
+          <a href="/inv/details/${vehicle.inv_id}" 
           title="View ${vehicle.inv_make} ${vehicle.inv_model} details">
             <img src="${imagePath}" 
             alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors" />
@@ -50,7 +52,7 @@ Util.buildClassificationGrid = async function (data) {
           <div class="namePrice">
             <hr />
             <h2>
-              <a href="/inventory/details/${vehicle.inv_id}" 
+              <a href="/inv/details/${vehicle.inv_id}" 
               title="View ${vehicle.inv_make} ${vehicle.inv_model} details">
                 ${vehicle.inv_make} ${vehicle.inv_model} (${vehicle.inv_year})
               </a>

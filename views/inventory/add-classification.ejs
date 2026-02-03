@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+</head> 
+<body>
+    <!--Page Heading-->
+    <h1 class="classification-heading"><%= title %></h1>
+    <p class="classification-subheading">Use the form below to add a new vehicle classification.</p>
+
+    <!-- Flash Message -->
+    <% if (messages.error && messages.error.length) { %>
+       <p style="color:red;"><%= messages.error[0] %></p>
+    <% } %>   
+    <% if (messages.success && messages.success.length) { %>
+        <p style="color:green;"><%= messages.success[0] %></p>
+    <% } %>
+
+    <!-- Add Classification Form -->   
+    <form action="/inv/add-classification/add" method="post">
+      <label for="classificationName">Classification Name:</label>
+      <input type="text" id="classificationName" name="classificationName" 
+             value="<%= typeof classificationName !== 'undefined' ? classificationName : '' %>"
+             required pattern="^[A-Za-z]+$" 
+             title="Only letters allowed, no spaces or special characters">
+
+      <button type="submit">Add Classification</button>
+    </form>
+</body>   
+</html>

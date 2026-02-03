@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory Management</title>
+</head>
+<body>
+  <h1>Inventory Management</h1>
+  
+  <!-- Flash Messages -->
+  <% if (messages.error && messages.error.length) { %>
+    <p style="color:red;"><%= messages.error[0] %></p>
+  <% } %>
+  <% if (messages.success && messages.success.length) { %>  
+    <p style="color:green;"><%= messages.success[0] %></p>
+  <% } %>
+  
+  <!-- Links to processes -->
+  <ul>
+    <li><a href="/inv/classification/add">Add New Classification</a></li>
+    <li><a href="/inv/add">Add New Inventory Item</a></li>
+  </ul>
+</body>    
+</html>

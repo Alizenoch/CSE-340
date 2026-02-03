@@ -21,6 +21,8 @@ const utilities = require("./utilities")
 
 const accountsRouter = require('./routes/accountRoute');
 
+
+
 // const bodyParser = require("body-parser")
 
 
@@ -104,6 +106,13 @@ app.get("/db-test", async (req, res) => {
   } 
 })
 
+
+
+// Mount static and inventory routes
+app.use("/", staticRoutes)
+app.use("/inv", inventoryRoute) 
+app.use("/account", accountsRouter)
+
 // Intentional error route for testing
 app.get("/trigger-error", (req, res, next) =>  {
   const error = new Error("Intentional 500 error triggered for testing");
@@ -111,11 +120,6 @@ app.get("/trigger-error", (req, res, next) =>  {
   next(error); // Pass to error middleware
 });
 
-
-// Mount static and inventory routes
-app.use("/", staticRoutes)
-app.use("/inventory", inventoryRoute) 
-app.use("/account", accountsRouter)
 
 /* ***********************
  * File Not Found Route (404)
