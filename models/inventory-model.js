@@ -92,10 +92,48 @@ async function addInventory({ make, model, year, price, miles, color, descriptio
   }
 }
 
+/* *****************************
+ * Update an existing inventory item
+ * *************************** */
+async function updateInventory({ inv_id, make, model, year, price, miles, color, description, image, thumbnail, classification_id }) {
+  try {
+    const sql = `
+      UPDATE public.inventory
+      SET inv_make = $1, inv_model = $2, inv_year = $3, inv_price = $4,
+          inv_miles = $5, inv_color = $6, inv_description = $7,
+          inv_image = $8, inv_thumbnail = $9, classification_id = $10
+      WHERE inv_id = $11
+      RETURNING *;
+    `;
+    const values = [make, model, year, price, miles, color, description, image, thumbnail, classification_id, inv_id];
+    const data = await pool.query(sql, values);
+    return data.rows[0];
+  } catch (error) {
+    console.error("updateInventory error:", error.message);
+    throw error;
+  }
+}
+
+/* *****************************
+ * Delete an inventory item
+ * *************************** */
+async function deleteInventory(inv_id) {
+  try {
+    const sql = "DELETE FROM public.inventory WHERE inv_id = $1 RETURNING *;";
+    const data = await pool.query(sql, [inv_id]);
+    return data.rows[0];
+  } catch (error) {
+    console.error("deleteInventory error:", error.message);
+    throw error;
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassification,
   getItemById,
   addClassification,
-  addInventory
-}
+  addInventory,
+  updateInventory,
+  deleteInventory
+};

@@ -1,6 +1,9 @@
 const invModel = require("../models/inventory-model")
 const pool = require("../database") // keep this for querying classification
 const Util = {}
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
+
 
 /* *******************************
  * Constructs the nav HTML unordered list
@@ -121,11 +124,59 @@ Util.buildVehicleDetailHTML = function(vehicle) {
   }
 }   
 
+/* **********************************
+* Middleware to check token validity
+* ********************************* */
+Util.checkJWTToken = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          req.flash("notice", "Please log in") // ✅ type + message
+          res.clearCookie("jwt")
+          return res.redirect("/account/login")
+        }
+        req.user = accountData
+        res.locals.accountData = accountData
+        res.locals.loggedin = 1
+        next()
+      }
+    )
+  } else {
+    next()
+  }
+}
+
 /* ********************************
  * Middleware For Handling Errors
  * Wrap other function in this for
  * General Error handling
  * ******************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+// Middleware for ensureAuthenticated
+Util.ensureAuthenticated = (req, res, next) => {
+  if (req.user) {
+    return next();
+    }
+    req.flash("notice", "Please log in to access your account");
+    res.redirect("/account/login");
+    };
+
+   // Middleware to check account type for inventory admin routes
+function checkAccountType(req, res, next) {
+  const account = req.user || res.locals.accountData;
+
+  if (account && (account.account_type === "Employee" || account.account_type === "Admin")) {
+    next(); // authorized
+  } else {
+    req.flash("notice", "You must be logged in as an Employee or Admin to access that page.");
+    return res.redirect("/account/login");
+  }
+}
+
+Util.checkAccountType = checkAccountType;
 
 module.exports = Util

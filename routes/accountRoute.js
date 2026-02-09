@@ -2,27 +2,44 @@
 const express = require('express');
 const router = express.Router();
 
-// Import utilities (from index.js in /utilities)
+// Import utilities
 const utils = require('../utilities');
 
-// Import accounts controller (to be built later)
- const accountsController = require('../controllers/accountsController');
+// Import accounts controller
+const accountsController = require('../controllers/accountsController');
 
-// Step 3: Add Get route for "My Account" link
-// Notice: only "/login" here, not "/account/login"
-// Add error handler middleware
- // Wrap the controller function with utilities.handleErrors 
-  router.get('/login', utils.handleErrors(accountsController.buildLogin));
+// Login routes
+router.get('/login', utils.handleErrors(accountsController.buildLogin));
+router.post('/login', utils.handleErrors(accountsController.processLogin));
 
-  // Route to build the registration view
-  router.get('/register', utils.handleErrors(accountsController.buildRegister));
+// Registration routes
+router.get('/register', utils.handleErrors(accountsController.buildRegister));
+router.post('/register', utils.handleErrors(accountsController.registerAccount));
 
-  // Route to process the form
-  router.post('/login', utils.handleErrors(accountsController.processLogin))
-  
-// Route to process the registration form
-  router.post('/register', utils.handleErrors(accountsController.registerAccount))
-  
-  module.exports = router;
+// Default "My Account" page
+router.get('/', utils.handleErrors(accountsController.buildAccount));
+
+// ✅ Account Management view (Task 3)
+router.get('/management',
+  utils.checkJWTToken,
+  utils.handleErrors(accountsController.buildAccountManagement)
+);
+
+// Logout
+router.get('/logout', utils.handleErrors(accountsController.logout));
+
+// ✅ Update Account Information route (Task 3)
+router.get('/update/:accountId',
+  utils.checkJWTToken,
+  utils.handleErrors(accountsController.updateAccountView)
+);
+
+router.post('/update/:accountId',
+  utils.checkJWTToken,
+  utils.handleErrors(accountsController.processUpdateAccount)
+);
+
+router.post("/update-password/:accountId", accountsController.processUpdatePassword);
 
 
+module.exports = router;

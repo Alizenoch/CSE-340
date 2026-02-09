@@ -14,15 +14,18 @@
 <% } %>
 
 <section class="login-form">
-  <form action="/account/login" method="post">
+  <!-- ✅ Updated: id changed to "loginForm" -->
+  <form id="loginForm" action="/account/login" method="post">
     <div class="form-group">
-      <label for="email">Email Address:</label>
-      <input type="email" id="email" name="email" required placeholder="Enter your email">
+      <label for="account_email">Email Address:</label>
+      <!-- ✅ Updated: name changed to "account_email" -->
+      <input type="email" id="account_email" name="email" required placeholder="Enter your email">
     </div>
 
     <div class="form-group">
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required placeholder="Enter your password">
+      <label for="account_password">Password:</label>
+      <!-- ✅ Updated: name changed to "account_password" -->
+      <input type="password" id="account_password" name="password" required placeholder="Enter your password">
     </div>
 
     <button type="submit">LOGIN</button>
@@ -33,6 +36,7 @@
     No account? <a href="/account/register">Sign-up</a>
   </p>
 </section>
+
 
 
            

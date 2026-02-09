@@ -1,0 +1,49 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<%- include('../partials/navigation') %>
+
+<main>
+  <h1>My Account</h1>
+   
+  <!-- Flash Messages -->
+  <% if (notice && notice.length > 0) { %>
+    <% notice.forEach(function(msg){ %>
+      <div class="flash-notice"><%= msg %></div>
+    <% }) %>
+  <% } %>
+   
+  <% if (messages && messages.error) { %>
+    <div class="flash-error"><%= messages.error %></div>
+  <% } %> 
+   
+  <% if (messages && messages.success) { %>
+    <div class="flash-success"><%= messages.success %></div>
+  <% } %>
+
+  <!-- Validation errors -->
+  <% if (errors && errors.length > 0) { %>
+    <div class="flash-error">
+      <ul>
+        <% errors.forEach(function(err){ %>
+          <li><%= err.msg %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+     
+  <!-- Account details -->
+  <section class="account-details">
+    <p>Welcome, <%= account_firstname %> <%= account_lastname %>!</p>
+    <p>Account Type: <%= account_type %></p>
+  </section>
+
+  <!-- Links for account management -->   
+  <section class="account-actions">
+    <ul>
+      <li><a href="/account/update">Update Account Information</a></li> 
+      <li><a href="/inventory">Manage Inventory</a></li> 
+    </ul>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

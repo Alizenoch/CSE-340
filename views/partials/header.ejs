@@ -5,7 +5,14 @@
       <a href="/" class="site-name">CSE Motors</a>
     </div>
     <div class="header-right">
-      <a href="/account/login" class="account-link" title="Click to log in">MY ACCOUNT</a>
+      <% if (user) { %>
+        <!-- Visible only when logged in -->
+        <a href="/account/manage" class="account-link" title="Go to account management">Welcome Basic</a>
+        <a href="/account/logout" class="account-link" title="Click to log out">Logout</a>
+      <% } else { %>
+        <!-- Visible only when logged out -->
+        <a href="/account/login" class="account-link" title="Click to log in">MY ACCOUNT</a>
+      <% } %>
     </div>
   </div>
 

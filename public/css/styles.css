@@ -823,3 +823,77 @@ body {
   color: #fff;
   transform: scale(1.05);
 }
+
+.account-management {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.account-management h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.account-management a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #6a1b9a; /* purple link */
+  text-decoration: none;
+}
+
+.account-management a:hover {
+  text-decoration: underline;
+}
+
+
+.account-form {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.account-form h2 {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.account-form label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.account-form input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.account-form button {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.account-form button:hover {
+  background: #0056b3;
+}
+
+.account-form.password-form {
+  background: #fff3cd;   /* light yellow background */
+  border: 1px solid #ffeeba;
+}

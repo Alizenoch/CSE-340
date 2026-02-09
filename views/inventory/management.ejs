@@ -16,6 +16,24 @@
         <a href="/inv/add-inventory">Add New Vehicle</a>
       </div>
     
+      <!--New heading for inventory management-->
+      <h2>Manage Inventory</h2>
+      <p>Select a classification from the list below to view the vehicles belonging to that classification</p>
+
+      <!---Classification Select List-->
+      <form method="get" action="/inv/classification">
+        <select id="classificationList" name="classificationId"><%- classificationSelect %>
+          </select>
+        <button type="submit">View Vehicles</button>
+      </form>
+
+      <!---Empty table for inventory items-->
+      <table id="inventoryDisplay"></table>
+
+      <!---Message if JavaScript is disable-->
+      <noscript>JavaScript must be enabled to use this page.</noscript>
+
+      <script src="/js/inventory.js"></script>
 
     <!-- Plain Footer content  -->
       <p>© 2026, CSE 340 App<br>

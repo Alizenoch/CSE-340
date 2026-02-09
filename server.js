@@ -21,6 +21,8 @@ const utilities = require("./utilities")
 
 const accountsRouter = require('./routes/accountRoute');
 
+const cookieParser = require("cookie-parser")
+
 
 
 // const bodyParser = require("body-parser")
@@ -36,7 +38,7 @@ app.set("layout", "./layouts/layout")
 
 /* ***********************
  * Middleware
- *************************/
+ ********************** */
 // Serve static files from the "public" folder
 app.use(express.static("public"))
 
@@ -50,8 +52,8 @@ app.use(session({
     pool,
   }),
     secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
+    resave: false, // changed this true
+    saveUninitialized: false, // changed from true
     name: 'sessionId', 
 }))
 
@@ -73,6 +75,16 @@ app.use((req, res, next) => {
 
 // app.use(bodyParser.json())
 //app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+app.use(cookieParser())
+
+app.use(utilities.checkJWTToken)
+
+// Middleware to make user available in all views
+app.use((req, res, next) => {
+  res.locals.user = req.session.account || null;
+  next();
+});
 
 
 /* ***********************
@@ -110,7 +122,7 @@ app.get("/db-test", async (req, res) => {
 
 // Mount static and inventory routes
 app.use("/", staticRoutes)
-app.use("/inv", inventoryRoute) 
+app.use("/inv", inventoryRoute);
 app.use("/account", accountsRouter)
 
 // Intentional error route for testing
@@ -155,6 +167,14 @@ app.use(async (err, req, res, next) => {
     res.status(500).send("Server Error")
   }
 })
+
+// Logout route to clear JWT cookie
+app.get("/logout", (req, res) => {
+  res.clearCookie("jwt");   // remove the JWT cookie
+  req.session.destroy(() => {
+    res.redirect("/");      // redirect to homepage
+  });
+});
 
 
 /* ***********************

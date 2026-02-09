@@ -88,10 +88,16 @@ invController.triggerError = (req, res, next) => {
 ================================ */
 invController.showManagement = async (req, res, next) => {
   try {
+    // Build navigation bar
     const nav = await utilities.getNav()
+     // Build classification select list
+     const classificationSelect = await utilities.buildClassificationList()
+
+    //render the management view
     res.render("inventory/management", {
       title: "Inventory Management",
       nav,
+      classificationSelect, //pass to view
       showGlobalHeader: false,
       
       messages: {
@@ -204,6 +210,85 @@ invController.processAddInventory = async (req, res, next) => {
     })
   }
 }
+
+/* ***************************
+ *  Return Inventory by Classification As JSON
+ * ************************** */
+invController.getInventoryJSON = async (req, res, next) => {
+  const classification_id = parseInt(req.params.classification_id)
+  const invData = await invModel.getInventoryByClassificationId(classification_id)
+  if (invData[0].inv_id) {
+    return res.json(invData)
+  } else {
+    next(new Error("No data returned"))
+  }
+}
+
+/* ================================
+   Edit Vehicle (GET)
+================================ */
+invController.buildEditVehicle = async (req, res, next) => {
+  try {
+    const invId = req.params.id;
+    const vehicle = await invModel.getItemById(invId);
+    const nav = await utilities.getNav();
+    const classificationList = await utilities.buildClassificationList(vehicle.classification_id);
+
+    if (!vehicle) {
+      req.flash("error", "Vehicle not found.");
+      return res.redirect("/inv/management");
+    }
+
+    res.render("inventory/edit-inventory", {
+      title: `Edit ${vehicle.inv_make} ${vehicle.inv_model}`,
+      nav,
+      classificationList,
+      vehicle
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* ================================
+   Update Vehicle (POST)
+================================ */
+invController.updateVehicle = async (req, res, next) => {
+  try {
+    const { inv_id, make, model, year, price, miles, color, description, image, thumbnail, classification_id } = req.body;
+    const result = await invModel.updateInventory({ inv_id, make, model, year, price, miles, color, description, image, thumbnail, classification_id });
+
+    if (result) {
+      req.flash("success", "Vehicle updated successfully!");
+      res.redirect("/inv/management");
+    } else {
+      throw new Error("Update failed");
+    }
+  } catch (error) {
+    req.flash("error", "Failed to update vehicle.");
+    next(error);
+  }
+};
+
+/* ================================
+   Delete Vehicle (POST)
+================================ */
+invController.deleteVehicle = async (req, res, next) => {
+  try {
+    const { inv_id } = req.body;
+    const result = await invModel.deleteInventory(inv_id);
+
+    if (result) {
+      req.flash("success", "Vehicle deleted successfully!");
+      res.redirect("/inv/management");
+    } else {
+      throw new Error("Delete failed");
+    }
+  } catch (error) {
+    req.flash("error", "Failed to delete vehicle.");
+    next(error);
+  }
+};
 
 /* ================================
    Export Controller
