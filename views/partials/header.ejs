@@ -5,9 +5,9 @@
       <a href="/" class="site-name">CSE Motors</a>
     </div>
     <div class="header-right">
-      <% if (user) { %>
+      <% if (account) { %>
         <!-- Visible only when logged in -->
-        <a href="/account/manage" class="account-link" title="Go to account management">Welcome Basic</a>
+        <a href="/account/manage" class="account-link" title="Go to account management">Welcome <%= account.account_firstname %> <%= account.account_lastname %></a>
         <a href="/account/logout" class="account-link" title="Click to log out">Logout</a>
       <% } else { %>
         <!-- Visible only when logged out -->

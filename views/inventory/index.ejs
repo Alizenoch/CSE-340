@@ -6,35 +6,34 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <%-include('../partials/header') %>
+  <%- include('../partials/header') %>
 
   <main>
-  <h1><%= title %></h1>
-  <p style="text-align:center;">This is the inventory homepage.</p>
+    <h1><%= title %></h1>
+    <p style="text-align:center;">This is the inventory homepage.</p>
 
-  <div class="inventory-grid">
-    <% if (items && items.length > 0) { %>
-      <% items.forEach(item => { %>
-        <div class="inventory-card">
-          <a href="/inv/details/<%= item.inv_id %>">
-            <h3><%= item.inv_make %> <%= item.inv_model %> (<%= item.inv_year %>)</h3>
-          </a>
-          <img src="<%= item.inv_image %>" 
-          alt="Photo of <%= item.inv_year %> <%= item.inv_color %> <%= item.inv_make %> <%= item.inv_model %>">
-          <p>Color: <%= item.inv_color %></p>
-          <p>Price: <%= new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(item.inv_price) %></p>
-          <p>Miles: <%= new Intl.NumberFormat("en-US").format(item.inv_miles) %> miles</p>
+    <div class="inventory-grid">
+      <% if (items && items.length > 0) { %>
+        <% items.forEach(item => { %>
+          <div class="inventory-card">
+            <a href="/inv/details/<%= item.inv_id %>">
+              <h3><%= item.inv_make %> <%= item.inv_model %> (<%= item.inv_year %>)</h3>
+            </a>
+            <img src="<%= item.inv_image %>" 
+              alt="Photo of <%= item.inv_year %> <%= item.inv_color %> <%= item.inv_make %> <%= item.inv_model %>">
+            <p>Color: <%= item.inv_color %></p>
+            <p>Price: <%= new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(item.inv_price) %></p>
+            <p>Miles: <%= new Intl.NumberFormat("en-US").format(item.inv_miles) %> miles</p>
 
-           <!-- Add this link -->
-    <a href="/inv/details/<%= item.inv_id %>">View Details</a>
-        </div>
-      <% }) %>
-    <% } else { %>
-      <p class="no-items">No items found in inventory.</p>
-    <% } %>
-  </div>
+            <a href="/inv/details/<%= item.inv_id %>">View Details</a>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p class="no-items">No items found in inventory.</p>
+      <% } %>
+    </div>
   </main>
+
   <%- include('../partials/footer') %>
 </body>
 </html>
-

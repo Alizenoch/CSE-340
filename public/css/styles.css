@@ -897,3 +897,136 @@ body {
   background: #fff3cd;   /* light yellow background */
   border: 1px solid #ffeeba;
 }
+
+
+/* ===== Comments Section ===== */
+.comments {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+
+}
+
+/* Comment form */
+.comments li {
+  list-style: none;
+  margin-bottom: 0.5rem; /* this creates space between commnents */
+  padding: 0.75rem;
+  background-color: #fff;
+  border-radius: 4px;  /* added subtle divider */
+  border-bottom: 1px solid #eee; /* subtle divider line */
+}
+
+/* Remove divider from the last comment */
+.comments li:last-child {
+  border-bottom: none;
+}
+
+/* Author name */
+.comments li strong {
+  color: #333;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+/* Comment text */
+.comments li span {
+  color: #555;
+}
+
+/* Delete button */
+.comments li form button {
+  margin-left: 1rem;
+  background-color: #c0392b;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.comments li form button:hover {
+  background-color: #e74c3c;
+}
+
+main {
+  padding-left: 40px;  /* add space inside the main container */
+  padding-right: 40px; /* optional, keeps balance */
+}
+
+.page-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+/* ===== Card styling====== */
+
+.listing-box {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.listing-price {
+  font-size: 1.4rem;
+  color: #2c7a7b; /* teal accent */
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.listing-specs {
+  list-style: none;
+  padding: 0;
+}
+.listing-specs li {
+  margin-bottom: 0.3rem;
+  font-size: 1rem;
+  color: #444;
+}
+
+.comments-section {
+  margin-top: 2rem;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+.comments-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.comment-form textarea {
+  width: 100%;
+  min-height: 80px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+.comment-form button {
+  margin-top: 0.5rem;
+  background: #2c7a7b;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+}
+.comment-form button:hover {
+  background: #285e61;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: #6b46c1;
+  text-decoration: none;
+  font-weight: 500;
+}
+.back-link:hover {
+  text-decoration: underline;
+}

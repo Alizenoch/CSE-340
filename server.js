@@ -23,6 +23,8 @@ const accountsRouter = require('./routes/accountRoute');
 
 const cookieParser = require("cookie-parser")
 
+const commentsRoute = require("./routes/commentsRoute")
+
 
 
 // const bodyParser = require("body-parser")
@@ -52,10 +54,11 @@ app.use(session({
     pool,
   }),
     secret: process.env.SESSION_SECRET,
-    resave: false, // changed this true
+    resave: false, 
     saveUninitialized: false, // changed from true
     name: 'sessionId', 
 }))
+
 
 
 const flash = require("connect-flash")
@@ -82,9 +85,12 @@ app.use(utilities.checkJWTToken)
 
 // Middleware to make user available in all views
 app.use((req, res, next) => {
-  res.locals.user = req.session.account || null;
+  res.locals.account = req.session.account || null;
   next();
 });
+
+
+app.use(commentsRoute)
 
 
 /* ***********************

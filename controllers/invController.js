@@ -1,5 +1,6 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
+const Comment = require("../models/comment");
 
 const invController = {}
 
@@ -64,15 +65,20 @@ invController.buildByInvId = async (req, res, next) => {
       })
     }
 
+    // Fetch comments for this item
+    const comments = await Comment.findByItem(invId);
+    // Pass both comments and account into the view
     res.render("inventory/details", {
       title: `${itemData.inv_make} ${itemData.inv_model} (${itemData.inv_year})`,
       nav,
-      item: itemData
-    }) 
+      item: itemData,
+      comments: comments, // now available in details.ejs
+      account: req.session.account // so EJS can check if user is logged in and owns comments
+    }); 
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 /* ================================
    Error Testing Route

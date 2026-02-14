@@ -8,15 +8,43 @@
 
     <div class="vehicle-info">
       <h2 class="vehicle-price">
-        <%= new Intl.NumberFormat("en-US", { style: "currency" , currency: "USD" }).format(item.inv_price) %>
+        <%= new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(item.inv_price) %>
       </h2>
-      <p><strong>Description:</strong> <%= item.inv_description %>
-      </p>
+      <p><strong>Description:</strong> <%= item.inv_description %></p>
       <p><strong>Color:</strong> <%= item.inv_color %></p>
-      <p><strong>Miles:</strong><%= new Intl.NumberFormat("en-US").format(item.inv_miles) %> miles</p>
-      <p><strong>Classification:</strong> <%=item.classification_name %></p>
+      <p><strong>Miles:</strong> <%= new Intl.NumberFormat("en-US").format(item.inv_miles) %> miles</p>
+      <p><strong>Classification:</strong> <%= item.classification_name %></p>
     </div>
   </section>
+
+  <section class="comments-section">
+    <h3>Comments</h3>
+    <ul class="comments">
+      <% if (comments && comments.length > 0) { %>
+        <% comments.forEach(comment => { %>
+          <li>
+            <strong><%= comment.account_firstname %> <%= comment.account_lastname %>:</strong> <%= comment.content %>
+            <% if (comment.user_id === account.account_id) { %>
+              <form action="/delete/<%= comment.comment_id %>/comments" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>  
+              </form>
+            <% } %>
+          </li>
+        <% }) %>
+      <% } else { %>
+        <li>No comments yet!</li>
+      <% } %>
+    </ul>
+   <!--Add comment -->
+    <form action="/add/<%= item.inv_id %>/comments" method="POST">
+    <textarea name="content" required></textarea>
+      <button type="submit">Add Comment</button>
+    </form>
+  </section>
+
+  <div class="page-content">
+    <!--Camoro details, comments, back to management-->
+  </div>
 
   <a href="/inv/management">← Back to management</a>
 </main>
