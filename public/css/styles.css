@@ -1030,3 +1030,9 @@ main {
 .back-link:hover {
   text-decoration: underline;
 }
+
+.container {
+  max-width: 1200px;    /* standard wide layout */
+  margin: 0 auto;       /* centers content */
+  padding: 20px;        /* breathing room/space */
+}

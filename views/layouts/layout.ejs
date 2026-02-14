@@ -6,24 +6,27 @@
     <%- include('../partials/head') %>
   </head>
   <body>
-      
+    <header id="top-header">
+      <!-- header content -->
+    </header>
+  
     <% if (typeof showGlobalHeader === "undefined" || showGlobalHeader !== false) { %>
       <%- include('../partials/header') %>
-      <% } %>
+    <% } %>
 
-      <main role="main">
+    <main role="main">
+      <div class="container">
         <div class="page-content">
           <%- body %>
         </div>
-      </main>
-      
-      <% if (typeof showGlobalFooter == "undefined" || showGlobalFooter !== false) { %>
-       <footer>
-        <p>@ 2026, CSE 340 App</p>
-        </footer>
-  
-      <% } %>  
-    
+      </div>
+    </main>
+
+    <% if (typeof showGlobalFooter == "undefined" || showGlobalFooter !== false) { %>
+      <footer>
+        <p>&copy; 2026, CSE 340 App</p>
+      </footer>
+    <% } %>  
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
@@ -41,5 +44,6 @@
     </script>
   </body>
 </html>
+
 
 
